@@ -11,6 +11,6 @@ public class BookRequestDto {
 
     private String title;
     private String publicationYear;
-//    private String isbn;
+    private String isbn;
     private int authorId;
 }

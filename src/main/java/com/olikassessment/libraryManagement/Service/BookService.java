@@ -37,7 +37,10 @@ public class BookService {
         this.validationService = validationService;
     }
 
-    public BookResponseDto addBook(BookRequestDto bookRequestDto) throws AuthorNotFoundException {
+    public BookResponseDto addBook(BookRequestDto bookRequestDto) throws Exception {
+        if(!validationService.isValidISBN(bookRequestDto.getIsbn())){
+            throw new Exception("Invalid ISBN number");
+        }
         Book book = BookConvertor.bookReqeustDtoToBook(bookRequestDto);
 //        bookRepository.save(book);
         Optional<Author> optionalAuthor;

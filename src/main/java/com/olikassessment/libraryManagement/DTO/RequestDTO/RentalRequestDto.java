@@ -15,5 +15,5 @@ public class RentalRequestDto {
     private String rentalName;
     private String number;
     private int bookId;
-//    private String date;
+    private String date;
 }

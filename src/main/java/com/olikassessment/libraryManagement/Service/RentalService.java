@@ -11,6 +11,7 @@ import com.olikassessment.libraryManagement.Model.Book;
 import com.olikassessment.libraryManagement.Model.Rental;
 import com.olikassessment.libraryManagement.Repository.BookRepository;
 import com.olikassessment.libraryManagement.Repository.RentalRepository;
+import com.olikassessment.libraryManagement.Service.Validation.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,15 +25,25 @@ public class RentalService {
 
     @Autowired
     private final RentalRepository rentalRepository;
+    @Autowired
     private final BookRepository bookRepository;
+    @Autowired
+    private final ValidationService validationService;
 
     public RentalService(RentalRepository rentalRepository,
-                         BookRepository bookRepository) {
+                         BookRepository bookRepository, ValidationService validationService) {
         this.rentalRepository = rentalRepository;
         this.bookRepository = bookRepository;
+        this.validationService = validationService;
     }
 
-    public RentalResponseDto rentBook(RentalRequestDto rentalRequestDto) throws BookNotFoundException {
+    public RentalResponseDto rentBook(RentalRequestDto rentalRequestDto) throws Exception {
+        LocalDate date;
+        if(!validationService.isValidDate(rentalRequestDto.getDate())){
+            throw new Exception("Invalid Date Format");
+        }else{
+            date = ValidationService.parseStringToDate(rentalRequestDto.getDate());
+        }
          Rental rental = RentalConvertor.rentalRequestDtoToRental(rentalRequestDto);
 //         if(rentalRepository.existsByRentalName(rentalRequestDto.getRentalName())){
 //             rental = rentalRepository.findByRentalName(rentalRequestDto.getRentalName());
@@ -53,7 +64,7 @@ public class RentalService {
             throw new BookNotFoundException("Book is Already Rented");
          }
 
-         rental.setRentalDate(LocalDate.now());
+         rental.setRentalDate(date);
          rental.setReturnDate(LocalDate.now().plusDays(14));
 //        (rental.getBook()).add(book);
         List<Book> books = new ArrayList<>();

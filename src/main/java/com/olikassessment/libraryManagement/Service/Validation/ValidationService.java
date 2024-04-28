@@ -9,6 +9,8 @@ import java.util.Random;
 
 @Service
 public class ValidationService {
+    private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
+
     public String generateISBN() {
         StringBuilder isbn = new StringBuilder();
         Random random = new Random();
@@ -64,5 +66,14 @@ public class ValidationService {
         } catch (DateTimeParseException e) {
             return false;
         }
+    }
+
+    public static LocalDate parseStringToDate(String dateString) {
+        return parseStringToDate(dateString, DEFAULT_DATE_PATTERN);
+    }
+
+    public static LocalDate parseStringToDate(String dateString, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return LocalDate.parse(dateString, formatter);
     }
 }

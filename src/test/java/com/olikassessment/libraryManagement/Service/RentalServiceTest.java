@@ -1,7 +1,5 @@
 package com.olikassessment.libraryManagement.Service;
 
-//public class RentalServiceTest {
-//}
 import com.olikassessment.libraryManagement.DTO.MessageResponseDto;
 import com.olikassessment.libraryManagement.DTO.ResponseDTO.BookResponseDto;
 import com.olikassessment.libraryManagement.DTO.ResponseDTO.RentalResponseDto;

@@ -75,7 +75,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void testSaveBook() throws AuthorNotFoundException {
+    public void testSaveBook() throws Exception {
         // Mock the behavior of the bookRepository.save() method
         Author author = new Author();
         Rental rental = new Rental();
@@ -85,7 +85,7 @@ public class BookServiceTest {
 
         Mockito.when(bookRepository.save(bookToSave)).thenReturn(savedBook);
 
-        BookRequestDto bookRequestDto = new BookRequestDto("Title", "2022", 2);
+        BookRequestDto bookRequestDto = new BookRequestDto("Title", "2022","9785300866860", 2);
 
         // Call the method under test
         BookResponseDto returnedBook = bookService.addBook(bookRequestDto);
